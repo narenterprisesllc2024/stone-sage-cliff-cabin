@@ -1,0 +1,11 @@
+node_modules
+screenshots
+artifacts
+.git
+.grok
+*.log
+.output
+.vercel
+.env
+*.zip
+AGENTS.md

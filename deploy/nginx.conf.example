@@ -1,0 +1,26 @@
+# Point your subdomain at this VPS, then include this server block
+# (or copy it into sites-available) and reload nginx.
+#
+#   sudo ln -s /opt/captains-log/deploy/nginx.conf.example /etc/nginx/sites-available/captains-log
+#   sudo ln -s /etc/nginx/sites-available/captains-log /etc/nginx/sites-enabled/captains-log
+#   sudo nginx -t && sudo systemctl reload nginx
+#   sudo certbot --nginx -d YOUR_SUBDOMAIN
+#
+# Replace YOUR_SUBDOMAIN with the host you typed into install.sh.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name YOUR_SUBDOMAIN;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        client_max_body_size 12m;
+    }
+}
